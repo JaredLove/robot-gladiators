@@ -9,14 +9,20 @@ var enemyAttack = 12;
 
 
 
-// const getName = () => {
-//   window.alert("Welcome to Robot Gladiators!");
-//   let player = window.prompt("What is your robot's name?");
-//   fight(player);
-// }
+// function to generate a random numeric value
+// If we want a random number between 40 and 60, we would call the function as randomNumber(40, 60). That means min would be 40 and max would be 60. 
+const randomNumber = (min, max) => {
+    // Math.random() * 60 will give us a random decimal number between 0 and 20.xx.
+    // Math.floor() will round this number down, so now the range is a whole number between 0 and 20.
+    // We'll always add 40 to the generated number. If the random number is 0, we at least have 40. If the random number is 20, we have our upper limit: 60.
+    let value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+  };
 
 
 const startGame = () => {
+
 
     playerHealth = 100;
     playerAttack = 10;
@@ -30,7 +36,7 @@ for(let i = 0; i < enemyNames.length; i++) {
             // pick new enemy to fight based on the index of the enemyNames array
         let pickedEnemyName = enemyNames[i];
             // reset enemyHealth before starting new fight
-        enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
         
         // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
         fight(pickedEnemyName);
@@ -71,14 +77,18 @@ const fight = (enemyName) => {
           if (confirmSkip) {
             window.alert(player + ' has decided to skip this fight. Goodbye!');
             // subtract money from playerMoney for skipping
-            playerMoney = playerMoney - 10;
+            playerMoney = Math.max(0, playerMoney - 10);
             console.log("playerMoney", playerMoney)
             break;
           }
         }
-    
+
+        // playerDamage calls the randomNumber function with a min and a max attack and returns an attack value
+        let playerDamage = randomNumber(playerAttack -3, playerAttack)
         // remove enemy's health by subtracting the amount set in the playerAttack variable
-        enemyHealth = enemyHealth - playerAttack;
+        // so the enemyHealth does not go into the negatives for more professional look
+        
+        enemyHealth = Math.max(0, enemyHealth - playerDamage);
         console.log(
           player + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
         );
@@ -94,9 +104,10 @@ const fight = (enemyName) => {
         } else {
           window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
         }
-    
+        
+        let enemyDamage = randomNumber(enemyAttack -3, enemyAttack)
         // remove players's health by subtracting the amount set in the enemyAttack variable
-        playerHealth = playerHealth - enemyAttack;
+        playerHealth = Math.max(0, playerHealth - enemyDamage);
         console.log(
           enemyName + ' attacked ' + player + '. ' + player + ' now has ' + playerHealth + ' health remaining.'
         );
