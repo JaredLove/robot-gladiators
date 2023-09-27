@@ -52,7 +52,13 @@ for(let i = 0; i < enemyInfo.length; i++) {
 
 // fight function where the player robot and ai robots fight
 const fight = (enemy) => {
+    // keep track of who goes first
+    let isPlayerTurn = true;
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+      } 
     while (playerInfo.health > 0 && enemy.health > 0) {
+        if(isPlayerTurn){
         // ask player if they'd like to fight or run
         if (fightOrSkip()) {
             // if true, leave fight by breaking loop
@@ -79,7 +85,8 @@ const fight = (enemy) => {
           break;
         } else {
           window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
-        }
+          // if player does not go first
+        }}else {
         
         let enemyDamage = randomNumber(enemy.attack -3, enemy.attack)
         // remove players's health by subtracting the amount set in the enemy.attack variable
@@ -95,7 +102,9 @@ const fight = (enemy) => {
           break;
         } else {
           window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
-        }
+        }}
+            // switch turn order for next round
+            isPlayerTurn = !isPlayerTurn;
       } // end of while loop
 };
 
