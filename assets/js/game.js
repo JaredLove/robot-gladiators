@@ -54,22 +54,10 @@ for(let i = 0; i < enemyInfo.length; i++) {
 const fight = (enemy) => {
     while (playerInfo.health > 0 && enemy.health > 0) {
         // ask player if they'd like to fight or run
-        var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
-    
-        // if player picks "skip" confirm and then stop the loop
-        if (promptFight === "skip" || promptFight === "SKIP") {
-          // confirm player wants to skip
-          var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-    
-          // if yes (true), leave fight
-          if (confirmSkip) {
-            window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-            // subtract money from playerInfo.money for skipping
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-            console.log("playerInfo.money", playerInfo.money)
+        if (fightOrSkip()) {
+            // if true, leave fight by breaking loop
             break;
           }
-        }
 
         // playerDamage calls the randomNumber function with a min and a max attack and returns an attack value
         let playerDamage = randomNumber(playerInfo.attack -3, playerInfo.attack)
@@ -142,12 +130,40 @@ const shop = () => {
   }
 }
 
+const fightOrSkip = () => {
+     // ask player if they'd like to fight or skip using fightOrSkip function
+  let promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+
+  // Conditional Recursive Function Call
+if (promptFight === "" || promptFight === null) {
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip();
+  }
+  promptFight = promptFight.toLowerCase();
+  // if player picks "skip" confirm and then stop the loop
+  if (promptFight === "skip") {
+    // confirm player wants to skip
+    let confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+    // if yes (true), leave fight
+    if (confirmSkip) {
+      window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+      // subtract money from playerMoney for skipping
+      playerInfo.playerMoney = playerInfo.money - 10;
+        // return true if player wants to leave
+        return true;
+    }
+  }
+  return false;
+}
+
 const getPlayerName = () => {
     let playerName = "";
 
     while(playerName === null || playerName === undefined || playerName === ''){
         playerName = prompt("What is your robot's name?");
     }
+    return playerName;
 }
 
 const endGame = () => {
