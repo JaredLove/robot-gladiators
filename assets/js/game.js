@@ -20,6 +20,7 @@ for(let i = 0; i < enemyInfo.length; i++) {
         // The parentheses allow the arithmetic operation to perform and then concatenate this sum to the string message. 
             // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
         window.alert(`Welcome to Robot Gladiators! Round ${(i + 1)} `);
+        debugger;
             // pick new enemy to fight based on the index of the enemyNames array
         let pickedEnemyObj =  enemyInfo[i];
             // reset enemy.health before starting new fight
@@ -141,6 +142,14 @@ const shop = () => {
   }
 }
 
+const getPlayerName = () => {
+    let playerName = "";
+
+    while(playerName === null || playerName === undefined || playerName === ''){
+        playerName = prompt("What is your robot's name?");
+    }
+}
+
 const endGame = () => {
         // if player is still alive, player wins!
     if (playerInfo.health > 0) {
@@ -164,7 +173,7 @@ const endGame = () => {
 
 
   const playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
